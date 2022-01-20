@@ -8,8 +8,19 @@ export default class App extends LightningElement {
     canDownload = false;
     orgCoverage=0;
     columns = [
-        { label: 'Apex Class or Trigger name', fieldName: 'name' },
-        { label: 'Code Coverage Percentage', fieldName: 'coverage' }
+        {
+            label: 'Apex Class or Trigger name',
+            fieldName: 'name'
+        },
+        {
+            label: 'Code Coverage Percentage',
+            fieldName: 'coverage',
+            cellAttributes: {
+                class: {
+                    fieldName: 'format'
+                }
+            }            
+        }
     ];
     @track tblData = [{ name: 'foo', coverage: '1%' }];
 
@@ -50,11 +61,11 @@ export default class App extends LightningElement {
 
                     if(numLinesCovered == 0 && numLinesUncovered == 0)
                     {
-                        newTblData.push({name:p,coverage:'0%'});
+                        newTblData.push({name:p,coverage:'0%',format:'slds-text-color_error'});
                     }else
                     {
-                        var cov = parseInt(numLinesCovered/(numLinesCovered+numLinesUncovered)*100)+'%';
-                        newTblData.push({name:p,coverage:cov});
+                        var cov = parseInt(numLinesCovered/(numLinesCovered+numLinesUncovered)*100);
+                        newTblData.push({name:p,coverage:cov+'%',format:(cov>=75?'slds-text-color_success':'slds-text-color_error')});
                     }
                 }
 
